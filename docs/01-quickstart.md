@@ -10,11 +10,14 @@
 
 | File | What it does |
 |---|---|
-| `promptfooconfig.yaml` | Defines providers, prompts, and which tests to run |
-| `prompts/medibot.txt` | MediBot's system prompt — the red-team target |
-| `tests/jailbreaks.yaml` | Prompt-injection / guardrail-bypass cases |
-| `tests/hallucinations.yaml` | Made-up-fact traps |
-| `tests/cost-context.yaml` | Token / cost / latency assertions |
+| `promptfooconfig.yaml` | MediBot eval config (default) |
+| `promptfooconfig.finance.yaml` | FinanceBot eval config (run with `-c`) |
+| `prompts/medibot.txt` | MediBot's system prompt — healthcare triage |
+| `prompts/financebot.txt` | FinanceBot's system prompt — retail brokerage |
+| `tests/jailbreaks.yaml` | MediBot prompt-injection / guardrail-bypass cases |
+| `tests/finance-jailbreaks.yaml` | FinanceBot prompt-injection / guardrail-bypass cases |
+| `tests/hallucinations.yaml` | Made-up-fact traps (domain-neutral, shared) |
+| `tests/cost-context.yaml` | Token / cost / latency assertions (shared) |
 
 ## Enabling GPT vs Claude
 

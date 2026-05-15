@@ -1,6 +1,6 @@
 # Breaking GPT & Claude — Promptfoo Red-Team Workshop
 
-Hands-on AI bug-bounty workshop. You'll red-team **MediBot** — a healthcare triage chatbot (system prompt + GPT-4o-mini, which is how most production AI assistants are actually built) — using [Promptfoo](https://www.promptfoo.dev). Run prompt-injection, hallucination, and cost/context tests with structured assertions. Optionally compare against open-source models via OpenRouter or Claude.
+Hands-on AI bug-bounty workshop. You'll red-team two chatbots — **MediBot** (healthcare triage) and **FinanceBot** (retail brokerage) — using [Promptfoo](https://www.promptfoo.dev). Both are built the way most production AI assistants are built: GPT-4o-mini + a guardrail system prompt. Same attack surface, different domain rules. Optionally compare against open-source models via OpenRouter or Claude.
 
 <p align="center">
   <img src="docs/qr.png" alt="Scan to clone" width="220" />
@@ -29,8 +29,9 @@ The script will: check Node ≥ 20, install Promptfoo, prompt for your OpenAI ke
 ## Run the workshop eval
 
 ```bash
-npx promptfoo@latest eval
-npx promptfoo@latest view    # opens the web UI
+npx promptfoo@latest eval                                  # MediBot (default)
+npx promptfoo@latest eval -c promptfooconfig.finance.yaml  # FinanceBot
+npx promptfoo@latest view                                  # opens the web UI
 ```
 
 ## What you'll do
