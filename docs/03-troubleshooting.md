@@ -9,6 +9,15 @@ Your `OPENAI_API_KEY` in `.env` is missing or wrong. Verify at <https://platform
 ### `429 Rate limit` from OpenAI
 You're on a free / low-tier account. Either wait, add billing at platform.openai.com, or reduce `max_tokens` in `promptfooconfig.yaml`.
 
+### `better-sqlite3` ABI / Node version mismatch on first `npx promptfoo`
+A stale npx cache from an older Node version. Fix:
+```bash
+rm -rf ~/.npm/_npx        # macOS / Linux
+# Windows PowerShell:
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\npm-cache\_npx"
+```
+Then re-run the setup script.
+
 ### `npx promptfoo` is slow the first time
 First run downloads the package (~50 MB). Subsequent runs use the npx cache and are instant.
 
