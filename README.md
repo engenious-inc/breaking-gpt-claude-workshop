@@ -12,15 +12,15 @@ You need: a terminal, internet, and an [OpenAI API key](https://platform.openai.
 
 ### macOS / Linux
 ```bash
-git clone https://github.com/YOUR_USERNAME/promptfoo-redteam-workshop.git
-cd promptfoo-redteam-workshop
+git clone https://github.com/gregorygold/breaking-gpt-claude-workshop.git
+cd breaking-gpt-claude-workshop
 ./setup.sh
 ```
 
 ### Windows (PowerShell)
 ```powershell
-git clone https://github.com/YOUR_USERNAME/promptfoo-redteam-workshop.git
-cd promptfoo-redteam-workshop
+git clone https://github.com/gregorygold/breaking-gpt-claude-workshop.git
+cd breaking-gpt-claude-workshop
 .\setup.ps1
 ```
 
