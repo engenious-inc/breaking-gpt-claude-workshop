@@ -51,11 +51,16 @@ The point of this act: **red-team patterns transfer across domains.** The techni
 
 ## Going further
 
-### Same attack, multiple models
-Uncomment the `openrouter:*` providers in either config, add `OPENROUTER_API_KEY` to `.env`. Re-run `eval` — you'll see the same attack pass/fail differently against Llama, Mistral, and Gemma. Where the open models fail and GPT-4o-mini doesn't, you've found a *model* contribution to safety. Where GPT-4o-mini fails and they don't, you've found a *prompt-engineering* weakness.
+### Same attack, multiple models (via Groq)
+Uncomment the `groq:*` providers in either config and add `GROQ_API_KEY` to `.env` (grab one at <https://console.groq.com/keys> — free, no credit card). Re-run `eval` — you'll see the same attack pass/fail differently against Llama 3.3 70B, Llama 3.1 8B, and Gemma 2. Where the open models fail and GPT-4o-mini doesn't, you've found a *model* contribution to safety. Where GPT-4o-mini fails and they don't, you've found a *prompt-engineering* weakness.
+
+> Why Groq and not OpenRouter for this? Groq's free tier gives each attendee their own ~30 req/min budget. OpenRouter's free tier is a *shared* pool — 20 attendees hitting the same `:free` model at once will throttle each other. OpenRouter is still great for *post-workshop* exploration (200+ models, paid routing) — see below.
 
 ### One model judges another
 Set the `llm-rubric` provider to `anthropic:messages:claude-haiku-4-5` to have Claude grade GPT outputs. See [Promptfoo docs: model-graded metrics](https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/).
+
+### Exploring more models post-workshop (OpenRouter)
+OpenRouter routes 200+ models through one OpenAI-compatible API. Promptfoo supports it via `openrouter:<vendor>/<model>` — e.g. `openrouter:openai/gpt-oss-120b:free`, `openrouter:z-ai/glm-4.5-air:free`. Free tier shares a pool across all OpenRouter users (workshop-unfriendly), but a $5 prepay unlocks reliable paid routing.
 
 ### The Responses API
 OpenAI's newer endpoint adds stored prompts, retrieval, and reasoning models — each with its own attack surface (prompt-ID injection, RAG poisoning, reasoning-token exfiltration). Promptfoo supports it via `openai:responses:gpt-4o-mini`. See the [migration guide](https://developers.openai.com/api/docs/guides/migrate-to-responses).

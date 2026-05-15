@@ -1,6 +1,6 @@
 # Breaking GPT & Claude — Promptfoo Red-Team Workshop
 
-Hands-on AI bug-bounty workshop. You'll red-team two chatbots — **MediBot** (healthcare triage) and **FinanceBot** (retail brokerage) — using [Promptfoo](https://www.promptfoo.dev). Both are built the way most production AI assistants are built: GPT-4o-mini + a guardrail system prompt. Same attack surface, different domain rules. Optionally compare against open-source models via OpenRouter or Claude.
+Hands-on AI bug-bounty workshop. You'll red-team two chatbots — **MediBot** (healthcare triage) and **FinanceBot** (retail brokerage) — using [Promptfoo](https://www.promptfoo.dev). Both are built the way most production AI assistants are built: GPT-4o-mini + a guardrail system prompt. Same attack surface, different domain rules. Optionally compare against open-source models via Groq's free tier (Llama 3.3, Llama 3.1, Gemma 2) or against Claude.
 
 <p align="center">
   <img src="docs/qr.png" alt="Scan to clone" width="220" />
