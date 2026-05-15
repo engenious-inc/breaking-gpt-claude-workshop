@@ -4,3 +4,4 @@ output/
 .promptfoo/
 *.log
 .DS_Store
+promptfooconfig.yaml

@@ -6,7 +6,16 @@
 const fs = require('fs');
 const path = require('path');
 
-const ENV_PATH = path.join(__dirname, '..', '.env');
+const ROOT = path.join(__dirname, '..');
+const ENV_PATH = path.join(ROOT, '.env');
+const TEMPLATE_PATH = path.join(ROOT, 'promptfooconfig.template.yaml');
+const CONFIG_PATH = path.join(ROOT, 'promptfooconfig.yaml');
+
+function writePromptfooConfig(assistantId) {
+  const tmpl = fs.readFileSync(TEMPLATE_PATH, 'utf8');
+  fs.writeFileSync(CONFIG_PATH, tmpl.replace(/__ASSISTANT_ID__/g, assistantId));
+  console.log(`✓ Wrote promptfooconfig.yaml`);
+}
 
 function readEnv() {
   if (!fs.existsSync(ENV_PATH)) return {};
@@ -43,6 +52,7 @@ function writeEnvVar(key, value) {
   }
   if (env.ASSISTANT_ID && env.ASSISTANT_ID.startsWith('asst_')) {
     console.log(`✓ Assistant already configured (${env.ASSISTANT_ID})`);
+    writePromptfooConfig(env.ASSISTANT_ID);
     return;
   }
 
@@ -88,6 +98,7 @@ function writeEnvVar(key, value) {
 
   writeEnvVar('ASSISTANT_ID', data.id);
   console.log(`✓ Assistant created: ${data.id} (written to .env)`);
+  writePromptfooConfig(data.id);
 })().catch((e) => {
   console.error(`✗ ${e.message}`);
   process.exit(1);

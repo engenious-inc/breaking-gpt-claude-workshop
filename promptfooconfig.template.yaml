@@ -8,7 +8,7 @@ prompts:
 providers:
   # Primary target: the MediBot assistant created by scripts/create-assistant.js.
   # ASSISTANT_ID is written to .env automatically by setup.sh / setup.ps1.
-  - id: openai:assistant:${ASSISTANT_ID}
+  - id: openai:assistant:__ASSISTANT_ID__
 
   # OPTIONAL — multi-model comparison. Uncomment and add OPENROUTER_API_KEY
   # to .env to attack the same prompts against open-source models.
