@@ -55,7 +55,10 @@ Get-Content .env | ForEach-Object {
   }
 }
 
-# 4. Smoke test
+# 4. Create the MediBot assistant in the user's OpenAI account
+& node scripts/create-assistant.js
+
+# 5. Smoke test
 Write-Host "Running a 1-test smoke check…"
 try {
   & npx --yes promptfoo@latest eval -c promptfooconfig.yaml --filter-first-n 1 --no-cache --no-write --no-table --no-progress-bar *> $null
@@ -64,7 +67,7 @@ try {
   Warn "Smoke test did not pass cleanly — see docs/03-troubleshooting.md"
 }
 
-# 5. Next steps
+# 6. Next steps
 Write-Host ""
 Ok "Setup complete."
 Write-Host "Next:"

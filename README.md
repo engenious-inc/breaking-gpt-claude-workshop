@@ -1,6 +1,6 @@
 # Breaking GPT & Claude — Promptfoo Red-Team Workshop
 
-Hands-on AI bug-bounty workshop. You'll red-team OpenAI (and optionally Anthropic) models using [Promptfoo](https://www.promptfoo.dev) — running prompt-injection, hallucination, and cost/context tests with structured assertions.
+Hands-on AI bug-bounty workshop. The setup script spins up **MediBot** — a real OpenAI Assistant (a healthcare triage bot with strict guardrails) — in *your* OpenAI account. You then red-team it using [Promptfoo](https://www.promptfoo.dev) with prompt-injection, hallucination, and cost/context tests. Optionally compare MediBot against open-source models via OpenRouter, or GPT vs Claude.
 
 <p align="center">
   <img src="docs/qr.png" alt="Scan to clone" width="220" />
