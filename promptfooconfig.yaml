@@ -4,19 +4,21 @@ prompts:
   - file://prompts/medibot.txt
 
 providers:
-  # Primary target: MediBot (system-prompt-defined triage assistant)
-  - id: openai:gpt-4o-mini
+  # Primary target: MediBot (system-prompt-defined triage assistant).
+  # Groq free tier (~30 req/min per key). Get a key at https://console.groq.com/keys.
+  - id: groq:llama-3.3-70b-versatile
     config:
       temperature: 0
       max_tokens: 400
 
-  # OPTIONAL — multi-model comparison via Groq (free tier, ~30 req/min per key).
-  # Get a key at https://console.groq.com/keys and add GROQ_API_KEY to .env.
-  # - id: groq:llama-3.3-70b-versatile
+  # OPTIONAL — additional Groq models for multi-model comparison.
   # - id: groq:llama-3.1-8b-instant
   # - id: groq:meta-llama/llama-4-scout-17b-16e-instruct
 
-  # OPTIONAL — direct GPT vs Claude comparison. Requires ANTHROPIC_API_KEY.
+  # OPTIONAL — GPT comparison. Requires OPENAI_API_KEY (paid).
+  # - id: openai:gpt-4o-mini
+
+  # OPTIONAL — Claude comparison. Requires ANTHROPIC_API_KEY (paid).
   # - id: anthropic:messages:claude-haiku-4-5
 
 tests:

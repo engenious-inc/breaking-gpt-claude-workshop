@@ -1,6 +1,6 @@
 # Breaking GPT & Claude — Promptfoo Red-Team Workshop
 
-Hands-on AI bug-bounty workshop. You'll red-team two chatbots — **MediBot** (healthcare triage) and **FinanceBot** (retail brokerage) — using [Promptfoo](https://www.promptfoo.dev). Both are built the way most production AI assistants are built: GPT-4o-mini + a guardrail system prompt. Same attack surface, different domain rules. Optionally compare against open-source models via Groq's free tier (Llama 3.3, Llama 3.1, Gemma 2) or against Claude.
+Hands-on AI bug-bounty workshop. You'll red-team two chatbots — **MediBot** (healthcare triage) and **FinanceBot** (retail brokerage) — using [Promptfoo](https://www.promptfoo.dev). Both are built the way most production AI assistants are built: a Llama 3.3 70B model + a guardrail system prompt, served via Groq's free tier. Same attack surface, different domain rules. Optionally compare against GPT-4o-mini or Claude (both paid).
 
 <p align="center">
   <img src="docs/qr.png" alt="Scan to clone" width="220" />
@@ -8,7 +8,7 @@ Hands-on AI bug-bounty workshop. You'll red-team two chatbots — **MediBot** (h
 
 ## Quickstart (≈ 3 minutes)
 
-You need: a terminal, internet, and an [OpenAI API key](https://platform.openai.com/api-keys).
+You need: a terminal, internet, and a free [Groq API key](https://console.groq.com/keys).
 
 ### macOS / Linux
 ```bash
@@ -24,7 +24,7 @@ cd breaking-gpt-claude-workshop
 .\setup.ps1
 ```
 
-The script will: check Node ≥ 20, install Promptfoo, prompt for your OpenAI key, write `.env`, and run a smoke test.
+The script will: check Node ≥ 20, install Promptfoo, prompt for your Groq key, write `.env`, and run a smoke test.
 
 ## Run the workshop eval
 
@@ -39,7 +39,7 @@ npx promptfoo@latest view                                  # opens the web UI
 1. **Prompt-injection / jailbreaks** — try to bypass system-prompt guardrails (`tests/jailbreaks.yaml`)
 2. **Hallucination traps** — confirm the model refuses to invent facts (`tests/hallucinations.yaml`)
 3. **Cost & context** — assert token usage, cost, and latency thresholds (`tests/cost-context.yaml`)
-4. **GPT vs Claude** — uncomment the Anthropic provider in `promptfooconfig.yaml` for side-by-side comparison
+4. **Multi-model comparison** — uncomment additional Groq, OpenAI, or Anthropic providers in `promptfooconfig.yaml` for side-by-side runs
 
 ## Troubleshooting
 

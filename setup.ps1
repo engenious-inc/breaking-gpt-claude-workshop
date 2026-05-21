@@ -37,10 +37,11 @@ Ok "Promptfoo ready"
 if (-not (Test-Path .env)) {
   Copy-Item .env.example .env
   Write-Host ""
-  $key = Read-Host "Paste your OpenAI API key (sk-…)"
+  Write-Host "Get a free Groq API key at https://console.groq.com/keys"
+  $key = Read-Host "Paste your Groq API key (gsk-…)"
   if ($key) {
-    (Get-Content .env) -replace '^OPENAI_API_KEY=.*', "OPENAI_API_KEY=$key" | Set-Content .env
-    Ok "Wrote OPENAI_API_KEY to .env"
+    (Get-Content .env) -replace '^GROQ_API_KEY=.*', "GROQ_API_KEY=$key" | Set-Content .env
+    Ok "Wrote GROQ_API_KEY to .env"
   } else {
     Warn "No key entered — edit .env manually before running eval"
   }

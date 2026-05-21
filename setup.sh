@@ -45,15 +45,16 @@ ok "Promptfoo ready"
 if [ ! -f .env ]; then
   cp .env.example .env
   echo
-  read -r -p "Paste your OpenAI API key (sk-…): " openai_key
-  if [ -n "$openai_key" ]; then
+  echo "Get a free Groq API key at https://console.groq.com/keys"
+  read -r -p "Paste your Groq API key (gsk-…): " groq_key
+  if [ -n "$groq_key" ]; then
     # macOS sed needs '' after -i
     if [[ "$OSTYPE" == "darwin"* ]]; then
-      sed -i '' "s|OPENAI_API_KEY=.*|OPENAI_API_KEY=${openai_key}|" .env
+      sed -i '' "s|GROQ_API_KEY=.*|GROQ_API_KEY=${groq_key}|" .env
     else
-      sed -i "s|OPENAI_API_KEY=.*|OPENAI_API_KEY=${openai_key}|" .env
+      sed -i "s|GROQ_API_KEY=.*|GROQ_API_KEY=${groq_key}|" .env
     fi
-    ok "Wrote OPENAI_API_KEY to .env"
+    ok "Wrote GROQ_API_KEY to .env"
   else
     warn "No key entered — edit .env manually before running eval"
   fi
