@@ -5,20 +5,47 @@ prompts:
 
 providers:
   # Groq free tier (~30 req/min per key). Get a key at https://console.groq.com/keys.
+  - id: groq:llama-3.1-8b-instant
+    config:
+      temperature: 0
+      max_tokens: 400
+
   - id: groq:llama-3.3-70b-versatile
     config:
       temperature: 0
       max_tokens: 400
 
-  # OPTIONAL — additional Groq models for multi-model comparison.
-  # - id: groq:llama-3.1-8b-instant
-  # - id: groq:meta-llama/llama-4-scout-17b-16e-instruct
+  - id: groq:meta-llama/llama-4-scout-17b-16e-instruct
+    config:
+      temperature: 0
+      max_tokens: 400
+
+  # OpenAI open-weight models, hosted on Groq (free via GROQ_API_KEY).
+  - id: groq:openai/gpt-oss-20b
+    config:
+      temperature: 0
+      max_tokens: 400
+
+  - id: groq:openai/gpt-oss-120b
+    config:
+      temperature: 0
+      max_tokens: 400
+
+  - id: groq:openai/gpt-oss-safeguard-20b
+    config:
+      temperature: 0
+      max_tokens: 400
 
   # OPTIONAL — GPT comparison. Requires OPENAI_API_KEY (paid).
   # - id: openai:gpt-4o-mini
 
   # OPTIONAL — Claude comparison. Requires ANTHROPIC_API_KEY (paid).
   # - id: anthropic:messages:claude-haiku-4-5
+
+# Use Groq for llm-rubric grading too, so attendees don't need an OpenAI key.
+defaultTest:
+  options:
+    provider: groq:llama-3.3-70b-versatile
 
 tests:
   - file://tests/finance-jailbreaks.yaml
