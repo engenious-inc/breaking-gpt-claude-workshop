@@ -14,17 +14,19 @@ You need: a terminal, internet, and a free [Groq API key](https://console.groq.c
 
 ### macOS / Linux
 ```bash
-git clone https://github.com/gregorygold/breaking-gpt-claude-workshop.git
+git clone https://github.com/engenious-inc/breaking-gpt-claude-workshop.git
 cd breaking-gpt-claude-workshop
 ./setup.sh
 ```
 
 ### Windows (PowerShell)
 ```powershell
-git clone https://github.com/gregorygold/breaking-gpt-claude-workshop.git
+git clone https://github.com/engenious-inc/breaking-gpt-claude-workshop.git
 cd breaking-gpt-claude-workshop
-.\setup.ps1
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
 ```
+
+> If `.\setup.ps1` fails with *"running scripts is disabled on this system"*, use the `-ExecutionPolicy Bypass` invocation shown above (or run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` first).
 
 The script will: check Node ≥ 20, install Promptfoo, prompt for your Groq key, write `.env`, and run a smoke test.
 
