@@ -1,4 +1,4 @@
-description: "Challenge 3 — BUILD IT · your custom guardrailed bot (rename me)"
+description: "Challenge 3 — BUILD IT · HRBot (internal HR assistant)"
 
 prompts:
   - file://prompts/mybot.txt
