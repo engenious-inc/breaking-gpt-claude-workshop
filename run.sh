@@ -32,6 +32,8 @@ Targets:
   openrouter.finance  FinanceBot via the OpenRouter fallback
   mybot               Your Challenge-3 build-it bot
   payflow             PayFlow app suite — guard, routing, citations (server must be up)
+  payflow-multiturn   PayFlow injection after 4 turns of legitimate context
+  payflow-redteam     PayFlow generated red team (promptfoo redteam run — slow)
   payflow-serve       Start the PayFlow demo app on :8000 (foreground)
   payflow-health      Check the PayFlow app is answering before you eval
   view                Open the results web UI
@@ -41,6 +43,8 @@ Examples:
   ./run.sh finance --filter-first-n 1
   ./run.sh payflow-serve      # in one terminal
   ./run.sh payflow            # in another
+  ./run.sh payflow-multiturn
+  ./run.sh payflow-redteam
   ./run.sh view
 
 Pacing defaults to -j 1 --delay 1000 (override with RUN_JOBS / RUN_DELAY_MS).
@@ -75,8 +79,37 @@ if [ "$target" = "payflow-health" ]; then
   exit 1
 fi
 
+# `redteam run` generates attacks before it evaluates them, so it is its own subcommand
+# rather than an `eval -c`.
+if [ "$target" = "payflow-redteam" ]; then
+  [ -f .env ] && { set -a; . ./.env; set +a; }
+  if ! node -e "fetch('${PAYFLOW_URL}/health').then(()=>process.exit(0)).catch(()=>process.exit(1))" 2>/dev/null; then
+    printf "${RED}✗${NC} PayFlow app is not answering at %s.\n" "$PAYFLOW_URL" >&2
+    printf "  Start it in another terminal first:  ${BLUE}./run.sh payflow-serve${NC}\n" >&2
+    exit 2
+  fi
+  printf "${BLUE}▶${NC} Generating and running the PayFlow red team.\n"
+  printf "  Every probe runs the full pipeline — three Groq calls each. Expect this to take a while.\n"
+  printf "  Reminder: a ${YELLOW}failing${NC} check means the attack landed. That's the finding.\n\n"
+  ec=0
+  # OPENAI_API_KEY is unset for this run on purpose. Nothing here uses OpenAI — but
+  # promptfoo treats the key's mere presence as "generate attacks locally" and switches
+  # off its own remote generator, which several strategies require. The whole scan then
+  # dies with "requires remote generation". The key is optional in this repo (only the
+  # paid comparison block in promptfooconfig.medibot.yaml reads it), so dropping it here
+  # costs nothing and keeps every strategy available.
+  env -u OPENAI_API_KEY npx --yes promptfoo@latest redteam run -c promptfooconfig.payflow-redteam.yaml "$@" || ec=$?
+  echo
+  case "$ec" in
+    0)   printf "${GREEN}🛡  Exit 0 — nothing landed on this run.${NC}\n" ;;
+    100) printf "${YELLOW}⚠  Exit 100 — at least one attack landed. Triage it: ${BLUE}./run.sh view${NC}\n" ;;
+    *)   printf "${RED}✗ Exit %s — an actual error.${NC}\n" "$ec" ;;
+  esac
+  exit "$ec"
+fi
+
 case "$target" in
-  medibot|finance|quality.medibot|quality.finance|openrouter.medibot|openrouter.finance|mybot|payflow)
+  medibot|finance|quality.medibot|quality.finance|openrouter.medibot|openrouter.finance|mybot|payflow|payflow-multiturn)
     cfg="promptfooconfig.${target}.yaml" ;;
   *)
     printf "${RED}✗${NC} Unknown target: %s\n\n" "$target" >&2
@@ -101,7 +134,7 @@ printf "${BLUE}▶${NC} Running ${BLUE}%s${NC}  ${YELLOW}(-j %s --delay %sms)${N
 # PayFlow is an ordinary suite — pass means good. Every other target here is a red-team
 # suite where a failing assertion IS the finding. Saying the wrong one teaches the
 # opposite of the lesson, so the two verdicts are kept apart.
-if [ "$target" = "payflow" ]; then
+if [ "$target" = "payflow" ] || [ "$target" = "payflow-multiturn" ]; then
   if ! node -e "fetch('${PAYFLOW_URL}/health').then(()=>process.exit(0)).catch(()=>process.exit(1))" 2>/dev/null; then
     printf "${RED}✗${NC} PayFlow app is not answering at %s.\n" "$PAYFLOW_URL" >&2
     printf "  Start it in another terminal first:  ${BLUE}./run.sh payflow-serve${NC}\n" >&2
@@ -118,7 +151,7 @@ ec=0
 npx --yes promptfoo@latest eval -c "$cfg" -j "$JOBS" --delay "$DELAY_MS" "$@" || ec=$?
 
 echo
-if [ "$target" = "payflow" ]; then
+if [ "$target" = "payflow" ] || [ "$target" = "payflow-multiturn" ]; then
   case "$ec" in
     0)   printf "${GREEN}✓ Exit 0 — the pipeline behaved on every case.${NC}\n"
          printf "  Guard fired where it should, routing picked the right specialist, citations lined up.\n" ;;

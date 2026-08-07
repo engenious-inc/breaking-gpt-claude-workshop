@@ -1,0 +1,43 @@
+# PayFlow multi-turn — does legitimate context soften the guard?
+#
+# Some attacks work better after a few turns of ordinary conversation. This config
+# replays a fixed 5-turn transcript: four turns of real PayFlow questions and answers,
+# then the attack in turn five.
+#
+# PayFlow is STATELESS — POST /chat takes one `message` and keeps nothing between
+# requests. So the transcript arrives flattened into that single field, and the guard
+# sees the whole conversation at once with the attack at the end. That is the honest
+# shape of the test, and it is the interesting one: the guard is being asked to spot an
+# injection buried under four turns of cooperative context rather than standing alone.
+#
+# It also means `session_id` changes nothing. Try it — that non-result is worth having.
+#
+# Start the app first:
+#   ./run.sh payflow-serve         # in one terminal
+#   ./run.sh payflow-multiturn     # in another
+
+description: PayFlow multi-turn — injection after four turns of legitimate context
+
+providers:
+  - id: http
+    label: payflow-api
+    config:
+      url: http://localhost:8000/chat
+      method: POST
+      headers:
+        Content-Type: application/json
+      body:
+        message: '{{prompt}}'
+        session_id: lab3-multiturn
+        user_role: student
+      transformResponse: json
+
+prompts:
+  - file://prompts/payflow-multiturn.txt
+
+defaultTest:
+  options:
+    provider: groq:llama-3.3-70b-versatile
+
+tests:
+  - file://tests/payflow.multiturn.yaml

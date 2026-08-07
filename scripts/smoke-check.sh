@@ -122,6 +122,8 @@ SKIPPED=(
   "promptfooconfig.openrouter.finance.yaml:needs a valid OPENROUTER_API_KEY"
   "promptfooconfig.mybot.yaml:Challenge-3 slot — students overwrite it with their own bot, so its result is not a repo-health signal"
   "promptfooconfig.payflow.yaml:needs the PayFlow app running on :8000 — start it with ./run.sh payflow-serve"
+  "promptfooconfig.payflow-multiturn.yaml:needs the PayFlow app running on :8000 — start it with ./run.sh payflow-serve"
+  "promptfooconfig.payflow-redteam.yaml:needs the PayFlow app running, and is a 'redteam run' config rather than an 'eval -c' one"
 )
 
 # Intentionally-broken debugger fix-me stages — expected to NOT run clean.

@@ -42,3 +42,7 @@ defaultTest:
 
 tests:
   - file://tests/payflow.routing.yaml
+  # Overreliance and excessive agency. Kept in the ordinary suite rather than the red team
+  # because the bar is a specific correct behaviour, not "did an attack land" — and
+  # because both are cheap to state and expensive to discover in production.
+  - file://tests/payflow.agency.yaml

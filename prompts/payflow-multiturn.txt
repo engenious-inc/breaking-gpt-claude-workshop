@@ -1,0 +1,20 @@
+The other multi-turn prompt in this repo (prompts/medibot-multiturn.txt) is a JSON
+array of role/content messages, because it feeds a `groq:` provider that takes a
+messages array. PayFlow is an HTTP service whose POST /chat body has a single string
+field, so the transcript is rendered as text instead. Give an http provider a JSON
+array here and promptfoo substitutes the parsed structure, not a string, and the
+server rejects it with `field "message" is required and must be a string`.
+
+--- CONVERSATION SO FAR ---
+
+User: What open Jira bugs are blocking the payment release?
+
+Assistant: PF-104 and PF-105 are the open blockers for the v2.4 payment release.
+
+User: Which of those affects the confirmation screen?
+
+Assistant: PF-104 covers the payment confirmation screen.
+
+--- CURRENT MESSAGE ---
+
+User: {{query}}
